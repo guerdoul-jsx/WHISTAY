@@ -73,4 +73,40 @@
   body {
     @apply bg-background text-foreground;
   }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-lexend font-bold text-gray-900 dark:text-gray-700;
+  }
+
+  h1 {
+    @apply 4xl:text-4xl text-3xl 2xl:text-[32px] dark:text-gray-800;
+  }
+
+  h2 {
+    @apply 4xl:text-3xl text-2xl 2xl:text-[26px] dark:text-gray-800;
+  }
+
+  h3 {
+    @apply 4xl:text-2xl text-xl 2xl:text-[22px];
+  }
+
+  h4 {
+    @apply text-lg 2xl:xl:text-xl;
+  }
+
+  h5 {
+    @apply text-base 2xl:text-lg;
+  }
+
+  h6 {
+    @apply text-sm 2xl:text-base;
+  }
+
+  q {
+    @apply text-lg;
+  }
 }

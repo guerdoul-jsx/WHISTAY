@@ -1,5 +1,5 @@
-import { createEnv } from "@t3-oss/env-nextjs";
-import * as z from "zod";
+import { createEnv } from '@t3-oss/env-nextjs';
+import * as z from 'zod';
 
 export const env = createEnv({
   /**
@@ -7,12 +7,14 @@ export const env = createEnv({
    * isn't built with invalid env vars.
    */
   server: {
-    NODE_ENV: z.enum(["development", "test", "production"]),
+    NODE_ENV: z.enum(['development', 'test', 'production']),
     DATABASE_URL: z.string(),
     NEXTAUTH_URL: z.string(),
     NEXTAUTH_SECRET: z.string(),
     GOOGLE_CLIENT_ID: z.string(),
     GOOGLE_SECRET: z.string(),
+    FACEBOOK_CLIENT_ID: z.string(),
+    FACEBOOK_SECRET: z.string(),
     RESEND_API_KEY: z.string(),
     RESEND_EMAIL_FROM: z.string(),
   },
@@ -40,6 +42,8 @@ export const env = createEnv({
     GOOGLE_SECRET: process.env.GOOGLE_SECRET,
     RESEND_API_KEY: process.env.RESEND_API_KEY,
     RESEND_EMAIL_FROM: process.env.RESEND_EMAIL_FROM,
+    FACEBOOK_CLIENT_ID: process.env.FACEBOOK_CLIENT_ID,
+    FACEBOOK_SECRET: process.env.FACEBOOK_SECRET,
   },
 
   /**
