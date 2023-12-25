@@ -104,8 +104,8 @@ export default function ResetPasswordEmail({
 // }
 
 // export default function ResetPasswordEmail({
-//   email = 'mahmoudgedoul0@gmail.com',
-//   resetPasswordToken = 'asdbasjdhanduyas8976',
+//   email = '',
+//   resetPasswordToken = '',
 // }: Readonly<ResetPasswordEmailProps>): JSX.Element {
 //   const siteConfig = {
 //     name: 'Whistay',
