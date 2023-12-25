@@ -27,8 +27,12 @@ export default async function RootLayout({
       // required this one for next-themes, remove it if you are not using next-theme
       suppressHydrationWarning
     >
-      <body className={inter.className}>
-        <AuthProvider>
+      <body
+        className={inter.className}
+        // to prevent any warning that is caused by third party extensions like Grammarly
+        suppressHydrationWarning
+      >
+        <AuthProvider session={session}>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"

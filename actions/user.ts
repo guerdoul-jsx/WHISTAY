@@ -18,6 +18,7 @@ export async function getUserByEmail(email: string): Promise<User | null> {
   }
 }
 
+// function to get the user based on PasswordResetToken
 export async function getUserByResetPasswordToken(
   resetPasswordToken: string
 ): Promise<User | null> {
@@ -33,6 +34,7 @@ export async function getUserByResetPasswordToken(
   }
 }
 
+// function to get the user based on EmailVerificationToken
 export async function getUserByEmailVerificationToken(
   emailVerificationToken: string
 ): Promise<User | null> {

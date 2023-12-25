@@ -19,6 +19,7 @@ export const siteConfig = {
   url: 'https://whistay.com',
   ogImage: links.openGraphImage,
   author: 'mahmoudguerdoul',
+  address: 'Gueliz District Marrakech - Marrakech, MA 42050',
   hostingRegion: 'fra1',
   keywords: ['Hotels', 'Restaurants', 'Agencies'],
   navItemsFooter: [

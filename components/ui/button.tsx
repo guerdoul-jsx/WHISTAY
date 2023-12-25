@@ -18,6 +18,9 @@ const buttonVariants = cva(
           'bg-secondary text-secondary-foreground hover:bg-secondary/80',
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
+        navbarIcon:
+          'm-0 p-1 transition-all duration-300 ease-in-out hover:bg-accent hover:text-accent-foreground',
+        user: 'flex items-center justify-center',
       },
       size: {
         default: 'h-10 px-4 py-2',

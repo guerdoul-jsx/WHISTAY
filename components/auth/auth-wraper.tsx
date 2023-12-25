@@ -10,7 +10,7 @@ import { Heading } from '../ui/heading';
 
 interface AuthWraperProps {
   children: React.ReactNode;
-  title: React.ReactNode;
+  title?: React.ReactNode;
   isSocialLoginActive: boolean;
   isSignin: boolean;
   className?: string;
@@ -41,7 +41,7 @@ export default function AuthWraper({
         >
           <div className="flex flex-col items-center">
             <Link href={'/'} className="mb-7 inline-block max-w-[64px] lg:mb-9">
-              <Image src={logoImg} alt="Isomorphic" className="dark:invert" />
+              <Image src={logoImg} alt="Isomorphic" />
             </Link>
             <Heading
               as="h2"

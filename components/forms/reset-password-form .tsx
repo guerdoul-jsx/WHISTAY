@@ -23,6 +23,7 @@ import { emailVerificationSchema } from '@/validations/forms.';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
+import { ResponseApi } from '@/types';
 
 type ResetPasswordInputs = z.infer<typeof emailVerificationSchema>;
 
@@ -43,42 +44,30 @@ export function ResetPassword() {
   function onSubmit(formData: ResetPasswordInputs): void {
     startTransition(async () => {
       try {
-        console.log('CUURENT DATA', formData);
+        const response = await fetch('/api/auth/reset', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+
+        const res: ResponseApi = await response.json();
+
+        if (res.success === true && res.status === 200) {
+          toast({
+            title: 'Password Reset Successfully',
+            description: `${res.message}`,
+            variant: 'success',
+          });
+          return;
+        }
 
         toast({
-          title: 'Done, You have sucessfully',
-          variant: 'success',
+          title: 'Something went wrong',
+          description: `${res.message}`,
+          variant: 'destructive',
         });
-        //
-        // const message = await signUpWithPassword(
-        //   formData.email,
-        //   formData.password
-        // );
-        // switch (message) {
-        //   case 'exists':
-        //     toast({
-        //       title: 'User with this email address already exists',
-        //       description: 'If this is you, please sign in instead',
-        //       variant: 'destructive',
-        //     });
-        //     form.reset();
-        //     break;
-        //   case 'success':
-        //     toast({
-        //       title: 'Success!',
-        //       description: 'Check your inbox to verify your email address',
-        //     });
-        //     router.push('/auth/signin');
-        //     break;
-        //   default:
-        //     toast({
-        //       title: 'Something went wrong',
-        //       description: 'Please try again',
-        //       variant: 'destructive',
-        //     });
-        //     console.error(message);
-        //     break;
-        // }
       } catch (error) {
         toast({
           title: 'Something went wrong',

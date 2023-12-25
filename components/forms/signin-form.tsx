@@ -28,6 +28,10 @@ import { Loader2 } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 import Link from 'next/link';
 import { Heading } from '../ui/heading';
+import { checkEmailVerified } from '@/actions/email';
+
+import { signIn } from 'next-auth/react';
+import { getUserByEmail } from '@/actions/user';
 
 type SignInFormInputs = z.infer<typeof signInSchema>;
 
@@ -50,43 +54,51 @@ export function SigninForm() {
   function onSubmit(formData: SignInFormInputs): void {
     startTransition(async () => {
       try {
-        console.log('CUURENT DATA', formData);
         const { remember, ...rest } = formData;
 
-        toast({
-          title: 'Done, You have sucessfully',
-          variant: 'success',
+        const user = await getUserByEmail(rest.email);
+
+        if (!user) {
+          toast({
+            title: 'Invalid email or password',
+            description: 'Please check your credentials and try again',
+            variant: 'destructive',
+          });
+          return;
+        }
+
+        // TODO: CHECKNIG EMAIL VERIFICATION
+        const emailVerified = await checkEmailVerified(formData.email);
+        if (!emailVerified) {
+          toast({
+            title: 'Action Required',
+            description: 'Please verify your email address before sign in',
+            variant: 'destructive',
+          });
+          return;
+        }
+
+        const signInResponse = await signIn('credentials', {
+          email: formData.email,
+          password: formData.password,
+          redirect: false,
         });
-        //
-        // const message = await signUpWithPassword(
-        //   formData.email,
-        //   formData.password
-        // );
-        // switch (message) {
-        //   case 'exists':
-        //     toast({
-        //       title: 'User with this email address already exists',
-        //       description: 'If this is you, please sign in instead',
-        //       variant: 'destructive',
-        //     });
-        //     form.reset();
-        //     break;
-        //   case 'success':
-        //     toast({
-        //       title: 'Success!',
-        //       description: 'Check your inbox to verify your email address',
-        //     });
-        //     router.push('/auth/signin');
-        //     break;
-        //   default:
-        //     toast({
-        //       title: 'Something went wrong',
-        //       description: 'Please try again',
-        //       variant: 'destructive',
-        //     });
-        //     console.error(message);
-        //     break;
-        // }
+
+        if (signInResponse?.ok) {
+          toast({
+            title: 'Success!',
+            description: 'You are now signed in',
+            variant: 'success',
+          });
+          router.push('/');
+          router.refresh();
+        } else {
+          toast({
+            title: 'Invalid email or password',
+            description: 'Please check your credentials and try again',
+            variant: 'destructive',
+          });
+        }
       } catch (error) {
         toast({
           title: 'Something went wrong',

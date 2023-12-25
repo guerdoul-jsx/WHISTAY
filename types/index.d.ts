@@ -28,3 +28,8 @@ export interface NavItemFooter {
     external?: boolean;
   }[];
 }
+type ResponseApi = {
+  message: string | Error;
+  success: boolean;
+  status: number;
+};

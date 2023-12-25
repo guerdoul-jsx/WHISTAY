@@ -29,6 +29,8 @@ import { Switch } from '@/components/ui/switch';
 import Link from 'next/link';
 import { Heading } from '../ui/heading';
 
+import { ResponseApi } from '@/types/index';
+
 type SignUpFormInputs = z.infer<typeof signUpSchema>;
 
 export function SignupForm() {
@@ -60,45 +62,35 @@ export function SignupForm() {
           });
           return;
         }
-        toast({
-          title: 'Done, You have sucessfully',
-          variant: 'success',
+
+        const response = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
         });
 
-        //
-        // const message = await signUpWithPassword(
-        //   formData.email,
-        //   formData.password
-        // );
-        // switch (message) {
-        //   case 'exists':
-        //     toast({
-        //       title: 'User with this email address already exists',
-        //       description: 'If this is you, please sign in instead',
-        //       variant: 'destructive',
-        //     });
-        //     form.reset();
-        //     break;
-        //   case 'success':
-        //     toast({
-        //       title: 'Success!',
-        //       description: 'Check your inbox to verify your email address',
-        //     });
-        //     router.push('/auth/signin');
-        //     break;
-        //   default:
-        //     toast({
-        //       title: 'Something went wrong',
-        //       description: 'Please try again',
-        //       variant: 'destructive',
-        //     });
-        //     console.error(message);
-        //     break;
-        // }
+        const res: ResponseApi = await response.json();
+
+        if (res.success === true && res.status === 201) {
+          toast({
+            title: 'Account Created Successfully',
+            description: `${res.message}`,
+            variant: 'success',
+          });
+          return;
+        }
+
+        toast({
+          title: 'Something went wrong',
+          description: `${res.message}`,
+          variant: 'destructive',
+        });
       } catch (error) {
         toast({
           title: 'Something went wrong',
-          description: 'Please try again',
+          description: `Please try again ${error}`,
           variant: 'destructive',
         });
         console.error('error Submit', error);
@@ -161,7 +153,7 @@ export function SignupForm() {
             </FormItem>
           )}
         />
-        <div className="flex items-center justify-between lg:pb-2">
+        <div className="my-2 flex items-center justify-between lg:pb-2">
           <FormField
             control={form.control}
             name="isAgreed"
@@ -174,7 +166,7 @@ export function SignupForm() {
                   />
                 </FormControl>
                 <FormLabel
-                  className={`!my-auto  ${
+                  className={`!my-auto text-xs md:text-base ${
                     Boolean(form.getValues('isAgreed')) === true
                       ? 'text-gray-900'
                       : 'text-gray-600'
